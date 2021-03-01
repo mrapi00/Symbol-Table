@@ -97,6 +97,8 @@ static void testBasics(void)
    char acFirstBase[] = "First Base";
    char acRightField[] = "Right Field";
 
+   char acBrown[] = "Brown";
+   
    char *pcValue;
    int iSuccessful;
    int iFound;
@@ -138,12 +140,21 @@ static void testBasics(void)
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 4);
 
+   /* Try to insert duplicate to first key entered */
    iSuccessful = SymTable_put(oSymTable, acJeter, acCenterField);
    ASSURE(! iSuccessful);
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 4);
 
+   /* Try to insert duplicate to last key entered */
+   iSuccessful = SymTable_put(oSymTable, acRuth, acCenterField);
+   ASSURE(! iSuccessful);
+
+   uLength = SymTable_getLength(oSymTable);
+   ASSURE(uLength == 4);
+
+   
    /* Test SymTable_contains(). */
 
    iFound = SymTable_contains(oSymTable, acJeter);
@@ -205,6 +216,22 @@ static void testBasics(void)
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 4);
+
+
+   /* Insert key with NULL value */
+   iSuccessful = SymTable_put(oSymTable, acBrown, NULL);
+   ASSURE(iSuccessful);
+
+   uLength = SymTable_getLength(oSymTable);
+   ASSURE(uLength == 5);
+
+   /* Try to insert duplicate of key that had NULL value */
+   iSuccessful = SymTable_put(oSymTable, acBrown, acShortstop);
+   ASSURE(! iSuccessful);
+
+   uLength = SymTable_getLength(oSymTable);
+   ASSURE(uLength == 5);
+ 
 
    /* Test SymTable_free(). */
 
@@ -696,52 +723,52 @@ static void testCollisions(void)
    oSymTable = SymTable_new();
    ASSURE(oSymTable != NULL);
 
-   /* Note that strings "359", "966", "1093", "1389", and "1827" hash
+   /* Note that strings "250", "469", "947", "1303", and "2016" hash
       to the same bucket -- bucket 123. */
 
-   iSuccessful = SymTable_put(oSymTable, "359", acCenterField);
+   iSuccessful = SymTable_put(oSymTable, "250", acCenterField);
    ASSURE(iSuccessful);
 
-   iSuccessful = SymTable_put(oSymTable, "966", acCatcher);
+   iSuccessful = SymTable_put(oSymTable, "469", acCatcher);
    ASSURE(iSuccessful);
 
-   iSuccessful = SymTable_put(oSymTable, "1093", acFirstBase);
+   iSuccessful = SymTable_put(oSymTable, "947", acFirstBase);
    ASSURE(iSuccessful);
 
-   iSuccessful = SymTable_put(oSymTable, "1389", acRightField);
+   iSuccessful = SymTable_put(oSymTable, "1303", acRightField);
    ASSURE(iSuccessful);
 
-   iSuccessful = SymTable_put(oSymTable, "1827", acRightField);
+   iSuccessful = SymTable_put(oSymTable, "2016", acRightField);
    ASSURE(iSuccessful);
 
-   pcValue = SymTable_get(oSymTable, "359");
+   pcValue = SymTable_get(oSymTable, "250");
    ASSURE(pcValue == acCenterField);
 
-   pcValue = SymTable_get(oSymTable, "966");
+   pcValue = SymTable_get(oSymTable, "469");
    ASSURE(pcValue == acCatcher);
 
-   pcValue = SymTable_get(oSymTable, "1093");
+   pcValue = SymTable_get(oSymTable, "947");
    ASSURE(pcValue == acFirstBase);
 
-   pcValue = SymTable_get(oSymTable, "1389");
+   pcValue = SymTable_get(oSymTable, "1303");
    ASSURE(pcValue == acRightField);
 
-   pcValue = SymTable_get(oSymTable, "1827");
+   pcValue = SymTable_get(oSymTable, "2016");
    ASSURE(pcValue == acRightField);
 
-   pcValue = SymTable_remove(oSymTable, "1093");
+   pcValue = SymTable_remove(oSymTable, "947");
    ASSURE(pcValue == acFirstBase);
 
-   pcValue = SymTable_remove(oSymTable, "1827");
+   pcValue = SymTable_remove(oSymTable, "2016");
    ASSURE(pcValue == acRightField);
 
-   pcValue = SymTable_remove(oSymTable, "359");
+   pcValue = SymTable_remove(oSymTable, "250");
    ASSURE(pcValue == acCenterField);
 
-   pcValue = SymTable_get(oSymTable, "966");
+   pcValue = SymTable_get(oSymTable, "469");
    ASSURE(pcValue == acCatcher);
 
-   pcValue = SymTable_get(oSymTable, "1389");
+   pcValue = SymTable_get(oSymTable, "1303");
    ASSURE(pcValue == acRightField);
 
    SymTable_free(oSymTable);
