@@ -9,6 +9,31 @@
 
 /*--------------------------------------------------------------------*/
 
+/* Each item is stored in a node */
+
+struct Node
+{
+   /* The key. */
+   const char *key;
+   /* The value. */
+   void* value;
+   /* The address of the next Node. */
+   struct Node *psNextNode;
+};
+
+/*--------------------------------------------------------------------*/
+
+/* A SymTable structure is a "manager" structure that points to the first 
+   Node. */
+
+struct SymTable
+{
+   /* The address of the first node. */
+   struct Node *psFirstNode;
+};
+
+/*--------------------------------------------------------------------*/
+
 SymTable_T SymTable_new(void);
 
 /*--------------------------------------------------------------------*/
