@@ -183,9 +183,16 @@ size_t SymTable_getLength(SymTable_T oSymTable){
 
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, 
                  const void *pvValue){
+
     enum {MAX_BUCKET_COUNT = 65521};
     int iSuccessful;
+    struct Binding* newBinding;
+    struct Binding* currBinding;
+    size_t index;
     assert(oSymTable != NULL);
+
+    if (SymTable_contains(oSymTable, pcKey)) 
+        return 0;
 
     if (oSymTable->size == oSymTable->bucketCount && 
         oSymTable->bucketCount != MAX_BUCKET_COUNT)
@@ -195,6 +202,28 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
           return 0;
     }
 
+    index = SymTable_hash(pcKey, oSymTable->bucketCount);
+    
+    newBinding = (struct Binding*)malloc(sizeof(struct Binding));
+    if (newBinding == NULL)
+        return 0;
+
+    newBinding->key = (const char*)malloc(strlen(pcKey) + 1);
+    strcpy((char*)newBinding->key, pcKey);
+    newBinding->value = pvValue;
+    
+    if ((*(oSymTable->buckets) + index) == NULL){
+        *(*(oSymTable->buckets) + index) = *newBinding; /* not sure */
+    }
+    else {
+        currBinding = (*(oSymTable->buckets) + index);
+        while (currBinding->pNextBinding != NULL){
+            currBinding = currBinding->pNextBinding;
+        }
+        *(currBinding->pNextBinding) = *newBinding;
+    }
+
+    (oSymTable->size)++;
     return 1;
 
 }
@@ -203,17 +232,17 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
 
 void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     const void *pvValue){
-    ssize_t index;
+    size_t index;
     struct Binding* binding;
     assert(oSymTable != NULL);
 
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
-    binding = &(oSymTable->buckets) + index;
+    binding = (*(oSymTable->buckets) + index);
 
     while (binding != NULL){
         if (strcmp(pcKey, binding->key) == 0){
             void *oldValue = binding->value;
-            binding->value = pvValue;
+            binding->value = pvValue; /* is possible? */
             return oldValue;
         }
         binding = binding->pNextBinding;
@@ -230,7 +259,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
     assert(oSymTable != NULL);
 
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
-    binding = &(oSymTable->buckets) + index;
+    binding = (*(oSymTable->buckets) + index);
 
     while (binding != NULL){
         if (strcmp(pcKey, binding->key) == 0)
@@ -248,7 +277,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
     assert(oSymTable != NULL);
 
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
-    binding = &(oSymTable->buckets) + index;
+    binding = (*(oSymTable->buckets) + index);
 
     while (binding != NULL){
         if (strcmp(pcKey, binding->key) == 0)
@@ -268,7 +297,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     assert(oSymTable != NULL);
     
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
-    binding = &(oSymTable->buckets) + index;
+    binding = (*(oSymTable->buckets) + index);
 
     while (binding != NULL){
         if (strcmp(pcKey, binding->key) == 0){
