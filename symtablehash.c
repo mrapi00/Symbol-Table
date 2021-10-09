@@ -76,6 +76,8 @@ static int growHelper(const int bucketCount){
     case 32749:
         return 65521;
     }
+
+    return -1;
 }
 
 /*--------------------------------------------------------------------*/

@@ -384,7 +384,7 @@ static void testRemove(void)
 /*--------------------------------------------------------------------*/
 
 /* Test the SymTable_map() function. */
-/*
+
 static void testMap(void)
 {
    SymTable_T oSymTable;
@@ -428,7 +428,7 @@ static void testMap(void)
 
    SymTable_free(oSymTable);
 }
-*/
+
 /*--------------------------------------------------------------------*/
 
 /* Test a SymTable object that contains no bindings. */
