@@ -101,7 +101,7 @@ static SymTable_T newHelper(int bucketC){
         return NULL;
     }
     
-    oSymTable->size = 0;
+    oSymTable->size = 2;
     oSymTable->bucketCount = bucketC;
     return oSymTable;
 }
