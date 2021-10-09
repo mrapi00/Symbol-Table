@@ -160,10 +160,10 @@ SymTable_T SymTable_new(void) {
 void SymTable_free(SymTable_T oSymTable){
     size_t index;
     assert(oSymTable != NULL);
-
+    size_t bucketC = oSymTable->bucketCount;
     /* Traverses bindings of oSymTable and frees the memory occupied 
        by every binding object */
-    for (index = 0; index < oSymTable->bucketCount; index++){
+    for (index = 0; index < oSymTable->bucketC; index++){
         struct Binding* currentBind = *(oSymTable->buckets) + index;
         while (currentBind != NULL){
             struct Binding* pCurrent = currentBind;
