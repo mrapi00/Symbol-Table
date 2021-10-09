@@ -166,8 +166,8 @@ void SymTable_free(SymTable_T oSymTable){
     for (index = 0; index < bucketC; index++){
         struct Binding* currentBind = *(oSymTable->buckets) + index;
         while (currentBind != NULL){
-            free(currentBind->key);
             struct Binding* pCurrent = currentBind;
+            free(pCurrent->key);
             currentBind = currentBind->pNextBinding;
             free(pCurrent);
         }    
@@ -318,6 +318,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
         prevBinding->pNextBinding = binding->pNextBinding;
     }
     returnValue = binding->value;
+    free(binding->key);
     free(binding);
     return returnValue;
 }
