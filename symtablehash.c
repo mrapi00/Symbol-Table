@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "symtable.h"
 
 /*--------------------------------------------------------------------*/
@@ -24,7 +25,7 @@ struct SymTable {
     size_t size;
     /* Number of buckets*/
     size_t bucketCount;
-    /* Pointer to a array of bindings */
+    /* Array of bindings */
     struct Binding **buckets;
 };
 
@@ -80,7 +81,7 @@ static int growHelper(const int bucketCount){
 /*--------------------------------------------------------------------*/
 
 /* Helper function that allocates memory to an SymTable object by 
-   taking in a bucket count as argument. Returns reference to 
+   taking in a bucket count as argument. Returns reference to the
    SymTable object. */
 
 static SymTable_T newHelper(int bucketC){
@@ -202,17 +203,34 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
 
 void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     const void *pvValue){
-        assert(oSymTable != NULL);
+    ssize_t index;
+    struct Binding* binding;
+    assert(oSymTable != NULL);
+
+    index = SymTable_hash(pcKey, oSymTable->bucketCount);
+    binding = &(oSymTable->buckets) + index;
+
+    while (binding != NULL){
+        if (strcmp(pcKey, binding->key) == 0){
+            void *oldValue = binding->value;
+            binding->value = pvValue;
+            return oldValue;
+        }
+        binding = binding->pNextBinding;
+    }
+    return NULL;
+    
     }
 
 /*--------------------------------------------------------------------*/
 
 int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
     size_t index;
+    struct Binding* binding;
     assert(oSymTable != NULL);
 
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
-    struct Binding* binding = &(oSymTable->buckets) + index;
+    binding = &(oSymTable->buckets) + index;
 
     while (binding != NULL){
         if (strcmp(pcKey, binding->key) == 0)
@@ -226,10 +244,11 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
 
 void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
     size_t index;
+    struct Binding* binding;
     assert(oSymTable != NULL);
 
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
-    struct Binding* binding = &(oSymTable->buckets) + index;
+    binding = &(oSymTable->buckets) + index;
 
     while (binding != NULL){
         if (strcmp(pcKey, binding->key) == 0)
@@ -242,8 +261,32 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
 /*--------------------------------------------------------------------*/
  
 void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
+    size_t index;
+    bool found = false;
+    struct Binding* binding;
+    struct Binding* prevBinding;
     assert(oSymTable != NULL);
+    
+    index = SymTable_hash(pcKey, oSymTable->bucketCount);
+    binding = &(oSymTable->buckets) + index;
 
+    while (binding != NULL){
+        if (strcmp(pcKey, binding->key) == 0){
+            found = true;
+            break;
+        }
+        prevBinding = binding;
+        binding = binding->pNextBinding;
+    }
+    if (!found)
+        return NULL;
+        
+    if (binding->pNextBinding != NULL && prevBinding != NULL){
+        prevBinding->pNextBinding = binding->pNextBinding;
+    }
+    void *returnValue = binding->value;
+    free(binding);
+    return returnValue;
 }
 
 /*--------------------------------------------------------------------*/
