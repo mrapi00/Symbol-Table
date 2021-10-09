@@ -115,6 +115,7 @@ static int SymTable_grow(SymTable_T oSymTable)
     size_t uNewBucketCount;
     size_t oldBucketCount = oSymTable->bucketCount;
     SymTable_T newSymTable;
+    SymTable_T pOld;
 
     assert(oSymTable != NULL);
     /* Creates empty newSymTable with larger bucket count */
@@ -127,7 +128,7 @@ static int SymTable_grow(SymTable_T oSymTable)
        into newSymTable (re-hashed) */
 
     for (index = 0; index < oldBucketCount; index++){
-        struct Binding* currentBind = &(oSymTable->buckets) + index;
+        struct Binding* currentBind = *(oSymTable->buckets) + index;
         while (currentBind != NULL){
             SymTable_put(newSymTable, currentBind->key, currentBind->value);
             currentBind = currentBind->pNextBinding;
@@ -135,7 +136,7 @@ static int SymTable_grow(SymTable_T oSymTable)
     }
 
     /* Make oSymTable reference newSymTable, and free oSymTable's memory */
-    SymTable_T pOld = oSymTable;
+    pOld = oSymTable;
     oSymTable = newSymTable;
     SymTable_free(pOld);
     return 1;
@@ -161,16 +162,15 @@ void SymTable_free(SymTable_T oSymTable){
     /* Traverses bindings of oSymTable and frees the memory occupied 
        by every binding object */
     for (index = 0; index < oSymTable->bucketCount; index++){
-        struct Binding* currentBind = &(oSymTable->buckets) + index;
+        struct Binding* currentBind = *(oSymTable->buckets) + index;
         while (currentBind != NULL){
             struct Binding* pCurrent = currentBind;
             currentBind = currentBind->pNextBinding;
             free(pCurrent);
         }    
     }
-
     free(oSymTable);
-};
+}
 
 /*--------------------------------------------------------------------*/
 
@@ -210,7 +210,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
 
     newBinding->key = (const char*)malloc(strlen(pcKey) + 1);
     strcpy((char*)newBinding->key, pcKey);
-    newBinding->value = pvValue;
+    newBinding->value = (void*) pvValue;
     
     if ((*(oSymTable->buckets) + index) == NULL){
         *(*(oSymTable->buckets) + index) = *newBinding; /* not sure */
@@ -220,7 +220,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         while (currBinding->pNextBinding != NULL){
             currBinding = currBinding->pNextBinding;
         }
-        *(currBinding->pNextBinding) = *newBinding;
+        *(currBinding->pNextBinding) = *newBinding; /* not sure */
     }
 
     (oSymTable->size)++;
@@ -242,7 +242,7 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     while (binding != NULL){
         if (strcmp(pcKey, binding->key) == 0){
             void *oldValue = binding->value;
-            binding->value = pvValue; /* is possible? */
+            binding->value = (void*) pvValue; /* is possible? */
             return oldValue;
         }
         binding = binding->pNextBinding;
@@ -294,6 +294,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     bool found = false;
     struct Binding* binding;
     struct Binding* prevBinding;
+    void *returnValue;
     assert(oSymTable != NULL);
     
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
@@ -313,7 +314,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     if (binding->pNextBinding != NULL && prevBinding != NULL){
         prevBinding->pNextBinding = binding->pNextBinding;
     }
-    void *returnValue = binding->value;
+    returnValue = binding->value;
     free(binding);
     return returnValue;
 }
