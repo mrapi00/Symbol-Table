@@ -159,8 +159,8 @@ SymTable_T SymTable_new(void) {
 
 void SymTable_free(SymTable_T oSymTable){
     size_t index;
-    assert(oSymTable != NULL);
     size_t bucketC = oSymTable->bucketCount;
+    assert(oSymTable != NULL);
     /* Traverses bindings of oSymTable and frees the memory occupied 
        by every binding object */
     for (index = 0; index < bucketC; index++){
