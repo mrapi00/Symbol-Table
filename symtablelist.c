@@ -23,8 +23,7 @@ struct Node
 
 /*--------------------------------------------------------------------*/
 
-/* A SymTable structure is a "manager" structure that points to the first 
-   Node. */
+/* A SymTable structure symbole table that points to the first Node. */
 
 struct SymTable
 {
