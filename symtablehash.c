@@ -166,6 +166,7 @@ void SymTable_free(SymTable_T oSymTable){
     for (index = 0; index < bucketC; index++){
         struct Binding* currentBind = *(oSymTable->buckets) + index;
         while (currentBind != NULL){
+            free(currentBind->key);
             struct Binding* pCurrent = currentBind;
             currentBind = currentBind->pNextBinding;
             free(pCurrent);
