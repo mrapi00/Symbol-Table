@@ -11,7 +11,7 @@
 
 /*--------------------------------------------------------------------*/
 
-/* Each item is stored in a node */
+/* Each key-value pair is stored in a node, and points to next Node */
 
 struct Node
 {
@@ -25,7 +25,7 @@ struct Node
 
 /*--------------------------------------------------------------------*/
 
-/* A SymTable structure symbole table that points to the first Node. */
+/* A SymTable structure symbol table that points to the first Node. */
 
 struct SymTable
 {
@@ -86,7 +86,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
    psNewNode = (struct Node*)malloc(sizeof(struct Node));
    if (psNewNode == NULL)
       return 0;
-
+   
+   /* create a defensive copy of key */
    psNewNode->key = (const char*)malloc(strlen(pcKey) + 1);
    strcpy((char*)psNewNode->key, pcKey);
    psNewNode->value = (void*) pvValue;
@@ -124,9 +125,8 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
 
    current = oSymTable->psFirstNode;
    while (current != NULL){
-      if (strcmp(pcKey, current->key) == 0){
+      if (strcmp(pcKey, current->key) == 0)
          return 1; 
-      }
       current = current->psNextNode;
    }
    return 0;
@@ -157,6 +157,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
    bool found = false;
    assert(oSymTable != NULL);
 
+   /* traverse thru Nodes until found */
    current = oSymTable->psFirstNode;
    while (current != NULL){
       if (strcmp(pcKey, current->key) == 0){
