@@ -176,6 +176,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
    returnValue = current->value;
    free((char*) current->key);
    free(current);
+   oSymTable->size--;
    return returnValue;
 }
 
