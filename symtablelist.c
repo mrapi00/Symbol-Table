@@ -149,7 +149,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
  
 void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
    struct Node* current;
-   struct Node* prevNode;
+   struct Node* prevNode = NULL;
    void *returnValue;
    bool found = false;
    assert(oSymTable != NULL);
@@ -165,10 +165,11 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
    }
    if (!found)
       return NULL;
+   /* case where first node is node with key */
+   if (prevNode == NULL)
+      oSymTable->psFirstNode = current->psNextNode;
+   else prevNode->psNextNode = current->psNextNode;
    
-   if (current->psNextNode != NULL && prevNode != NULL){
-      prevNode->psNextNode = current->psNextNode;
-   }
    returnValue = current->value;
    free((char*) current->key);
    free(current);

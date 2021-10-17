@@ -295,31 +295,32 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
 void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     size_t index;
     bool found = false;
-    struct Binding* binding;
-    struct Binding* prevBinding;
+    struct Binding* currBinding;
+    struct Binding* prevBinding = NULL;
     void *returnValue;
     assert(oSymTable != NULL);
     
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
-    binding = (*(oSymTable->buckets) + index);
+    currBinding = (*(oSymTable->buckets) + index);
 
-    while (binding != NULL){
-        if (strcmp(pcKey, binding->key) == 0){
+    while (currBinding != NULL){
+        if (strcmp(pcKey, currBinding->key) == 0){
             found = true;
             break;
         }
-        prevBinding = binding;
-        binding = binding->pNextBinding;
+        prevBinding = currBinding;
+        currBinding = currBinding->pNextBinding;
     }
+
     if (!found)
         return NULL;
     /* missing a case maybe? */
-    if (binding->pNextBinding != NULL && prevBinding != NULL){
-        prevBinding->pNextBinding = binding->pNextBinding;
+    if (currBinding->pNextBinding != NULL && prevBinding != NULL){
+        prevBinding->pNextBinding = currBinding->pNextBinding;
     }
-    returnValue = binding->value;
-    free((char*) binding->key);
-    free(binding);
+    returnValue = currBinding->value;
+    free((char*) currBinding->key);
+    free(currBinding);
     return returnValue;
 }
 
