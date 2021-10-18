@@ -10,7 +10,8 @@
 #include "symtable.h"
 
 /*--------------------------------------------------------------------*/
-
+static const size_t auBucketCounts[] = {509, 1021, 2039, 4093, 8191, 
+                                        16381, 32749, 65521};
 struct Binding {
     /* The key. */
     const char *key;
@@ -54,30 +55,11 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
    of prime number bucket counts, and returns the value.  */
 
 static size_t growHelper(const size_t bucketCount){
-    assert(bucketCount == 509 || bucketCount == 1021 || 
-           bucketCount == 2039 || bucketCount == 4093 || 
-           bucketCount == 8191 || bucketCount == 16381 || 
-           bucketCount == 32749);
-
-    switch (bucketCount)
-    {
-    case 509:
-        return 1021;
-    case 1021:
-        return 2039;
-    case 2039:
-        return 4093;
-    case 4093:
-        return 8191;
-    case 8191:
-        return 16381;
-    case 16381:
-        return 32749;
-    case 32749:
-        return 65521;
+    const int POSS_BUCKETS = 8;
+    for (int i = 0; i < POSS_BUCKETS - 1; i++){
+        if (auBucketCounts[i] == bucketCount)
+            return auBucketCounts[i + 1];
     }
-
-    return -1;
 }
 
 /*--------------------------------------------------------------------*/
@@ -137,7 +119,7 @@ static int SymTable_grow(SymTable_T oSymTable)
         }    
     }
 
-    /* Make oSymTable reference newSymTable, and free oSymTable's memory */
+    /* Make oSymTable reference newSymTable, and free oSymTable's old memory */
     pOldSymTable = oSymTable;
     oSymTable = newSymTable;
     SymTable_free(pOldSymTable);
@@ -147,8 +129,8 @@ static int SymTable_grow(SymTable_T oSymTable)
 /*--------------------------------------------------------------------*/
 
 SymTable_T SymTable_new(void) {
-    enum {INITIAL_BUCKET_COUNT = 509};
-    SymTable_T oSymTable = newHelper(INITIAL_BUCKET_COUNT);
+    const size_t INIT_BUCKET_COUNT = auBucketCounts[0];
+    SymTable_T oSymTable = newHelper(INIT_BUCKET_COUNT);
 
     if (oSymTable == NULL)
       return NULL;
@@ -186,8 +168,7 @@ size_t SymTable_getLength(SymTable_T oSymTable){
 
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, 
                  const void *pvValue){
-
-    enum {MAX_BUCKET_COUNT = 65521};
+    const size_t MAX_BUCKET_COUNT = auBucketCounts[7];
     int iSuccessful;
     struct Binding* newBinding;
     size_t index;
