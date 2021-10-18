@@ -164,7 +164,7 @@ void SymTable_free(SymTable_T oSymTable){
     /* Traverses bindings of oSymTable and frees the memory occupied 
        by every binding object */
     for (index = 0; index < bucketC; index++){
-        struct Binding* currentBind = *(oSymTable->buckets) + index;
+        struct Binding* currentBind = oSymTable->buckets[index];
         while (currentBind != NULL){
             struct Binding* pCurrent = currentBind;
             free((char*)pCurrent->key);
