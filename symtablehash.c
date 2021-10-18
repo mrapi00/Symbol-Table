@@ -212,7 +212,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         return 0;
 
     /* create defensive copy */
-    newBinding->key = (const char*)calloc(1, strlen(pcKey) + 1);
+    newBinding->key = (const char*)malloc(strlen(pcKey) + 1);
     strcpy((char*)newBinding->key, pcKey);
     newBinding->value = (void*) pvValue;
     
@@ -225,7 +225,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         while (currBinding->pNextBinding != NULL){
             currBinding = currBinding->pNextBinding;
         }
-        *(currBinding->pNextBinding) = *newBinding; 
+        currBinding->pNextBinding = newBinding; 
     }
 
     (oSymTable->size)++;
