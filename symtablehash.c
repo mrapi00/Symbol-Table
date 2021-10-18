@@ -190,7 +190,6 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     enum {MAX_BUCKET_COUNT = 65521};
     int iSuccessful;
     struct Binding* newBinding;
-    struct Binding* currBinding;
     size_t index;
     assert(oSymTable != NULL);
 
@@ -237,7 +236,7 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     while (binding != NULL){
         if (strcmp(pcKey, binding->key) == 0){
             void *oldValue = binding->value;
-            binding->value = (void*) pvValue; /* is possible? */
+            binding->value = (void*) pvValue; 
             return oldValue;
         }
         binding = binding->pNextBinding;
