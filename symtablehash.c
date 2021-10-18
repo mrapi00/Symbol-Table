@@ -240,7 +240,7 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     assert(oSymTable != NULL);
 
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
-    binding = (*(oSymTable->buckets) + index);
+    binding = (oSymTable->buckets)[index];
 
     while (binding != NULL){
         if (strcmp(pcKey, binding->key) == 0){
@@ -280,7 +280,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
     assert(oSymTable != NULL);
 
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
-    binding = (*(oSymTable->buckets) + index);
+    binding = oSymTable->buckets[index];
 
     while (binding != NULL){
         if (strcmp(pcKey, binding->key) == 0)
@@ -301,7 +301,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     assert(oSymTable != NULL);
     
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
-    currBinding = (*(oSymTable->buckets) + index);
+    currBinding = oSymTable->buckets[index];
 
     while (currBinding != NULL){
         if (strcmp(pcKey, currBinding->key) == 0){
