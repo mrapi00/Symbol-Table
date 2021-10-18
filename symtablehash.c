@@ -10,7 +10,7 @@
 #include "symtable.h"
 
 /*--------------------------------------------------------------------*/
-static const size_t auBucketCounts[] = {509, 1021, 2039, 4093, 8191, 
+static const size_t auBucketCounts[] = {10, 1021, 2039, 4093, 8191, 
                                         16381, 32749, 65521};
 struct Binding {
     /* The key. */
@@ -61,6 +61,7 @@ static size_t growHelper(const size_t bucketCount){
         if (auBucketCounts[i] == bucketCount)
             return auBucketCounts[i + 1];
     }
+    /* should never reach this case */
     return 0;
 }
 
