@@ -96,7 +96,7 @@ static SymTable_T newHelper(size_t bucketC){
 /* Increase the bucket count of oSymTable.  Return 1 (TRUE) if
    successful, or 0 (FALSE) if insufficient memory is available. */
 
-static int SymTable_grow(SymTable_T oSymTable)
+static SymTable_T SymTable_grow(SymTable_T oSymTable)
 {
     size_t index;
     size_t uNewBucketCount;
@@ -109,7 +109,7 @@ static int SymTable_grow(SymTable_T oSymTable)
     uNewBucketCount = growHelper(oldBucketCount);
     newSymTable = newHelper(uNewBucketCount);
     if (newSymTable == NULL)
-        return 0;
+        return NULL;
     
     /* Traverses bindings of oSymTable and copies the key-value pairs
        into newSymTable (re-hashed) */
@@ -122,11 +122,8 @@ static int SymTable_grow(SymTable_T oSymTable)
         }    
     }
 
-    /* Make oSymTable reference newSymTable, and free oSymTable's old memory */
-    pOldSymTable = oSymTable;
-    oSymTable = newSymTable;
-    SymTable_free(pOldSymTable);
-    return 1;
+    SymTable_free(oSymTable);
+    return newSymTable;
 }
 
 /*--------------------------------------------------------------------*/
@@ -183,9 +180,11 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     if (oSymTable->size == oSymTable->bucketCount && 
         oSymTable->bucketCount != MAX_BUCKET_COUNT)
     {
-       iSuccessful = SymTable_grow(oSymTable);
-       if (!iSuccessful)
+        SymTable_T grownSym = SymTable_grow(oSymTable);
+        if (grownSym == NULL)
           return 0;
+        else oSymTable = grownSym;
+    
     }
 
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
