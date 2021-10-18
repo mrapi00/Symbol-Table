@@ -216,18 +216,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     strcpy((char*)newBinding->key, pcKey);
     newBinding->value = (void*) pvValue;
     
-
-    if ((oSymTable->buckets)[index] == NULL){
-        (oSymTable->buckets)[index] = newBinding; 
-    }
-    else {
-        currBinding = oSymTable->buckets[index];
-        while (currBinding->pNextBinding != NULL){
-            currBinding = currBinding->pNextBinding;
-        }
-        currBinding->pNextBinding = newBinding; 
-    }
-
+    newBinding->pNextBinding = oSymTable->buckets[index];
+    oSymTable->buckets[index] = newBinding;
     (oSymTable->size)++;
     return 1;
 
