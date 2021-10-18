@@ -60,6 +60,7 @@ static size_t growHelper(const size_t bucketCount){
         if (auBucketCounts[i] == bucketCount)
             return auBucketCounts[i + 1];
     }
+    return 0;
 }
 
 /*--------------------------------------------------------------------*/
