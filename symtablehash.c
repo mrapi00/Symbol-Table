@@ -216,7 +216,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     newBinding->value = (void*) pvValue;
     
     if ((*(oSymTable->buckets) + index) == NULL){
-        *(*(oSymTable->buckets) + index) = *newBinding; /* not sure */
+        (oSymTable->buckets)[index] = newBinding; /* not sure */
     }
     else {
         currBinding = (*(oSymTable->buckets) + index);
@@ -265,7 +265,6 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
     binding = (oSymTable->buckets[index]);
 
     while (binding != NULL){
-        if (binding->key == NULL) return 0;
         if (strcmp(pcKey, binding->key) == 0)
             return 1;
         binding = binding->pNextBinding;
