@@ -102,7 +102,6 @@ static SymTable_T SymTable_grow(SymTable_T oSymTable)
     size_t uNewBucketCount;
     size_t oldBucketCount = oSymTable->bucketCount;
     SymTable_T newSymTable;
-    SymTable_T pOldSymTable;
 
     assert(oSymTable != NULL);
     /* Creates empty newSymTable with larger bucket count */
@@ -169,7 +168,6 @@ size_t SymTable_getLength(SymTable_T oSymTable){
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, 
                  const void *pvValue){
     const size_t MAX_BUCKET_COUNT = auBucketCounts[7];
-    int iSuccessful;
     struct Binding* newBinding;
     size_t index;
     assert(oSymTable != NULL);
