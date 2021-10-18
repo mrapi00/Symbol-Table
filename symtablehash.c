@@ -53,7 +53,7 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
 /* Helper function that finds the next bucket count in the sequence 
    of prime number bucket counts, and returns the value.  */
 
-static int growHelper(const int bucketCount){
+static size_t growHelper(const size_t bucketCount){
     assert(bucketCount == 509 || bucketCount == 1021 || 
            bucketCount == 2039 || bucketCount == 4093 || 
            bucketCount == 8191 || bucketCount == 16381 || 
@@ -86,7 +86,7 @@ static int growHelper(const int bucketCount){
    taking in a bucket count as argument. Returns reference to the
    SymTable object. */
 
-static SymTable_T newHelper(int bucketC){
+static SymTable_T newHelper(size_t bucketC){
     SymTable_T oSymTable;
 
     oSymTable = (SymTable_T) malloc(sizeof(struct SymTable));
