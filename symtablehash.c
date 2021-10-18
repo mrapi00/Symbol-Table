@@ -120,7 +120,8 @@ static SymTable_T SymTable_grow(SymTable_T oSymTable)
             currentBind = currentBind->pNextBinding;
         }    
     }
-
+    newSymTable->bucketCount = uNewBucketCount;
+    newSymTable->size = oSymTable->size;
     SymTable_free(oSymTable);
     return newSymTable;
 }
