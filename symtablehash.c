@@ -130,7 +130,7 @@ static int SymTable_grow(SymTable_T oSymTable)
        into newSymTable (re-hashed) */
 
     for (index = 0; index < oldBucketCount; index++){
-        struct Binding* currentBind = *(oSymTable->buckets) + index;
+        struct Binding* currentBind = oSymTable->buckets[index];
         while (currentBind != NULL){
             SymTable_put(newSymTable, currentBind->key, currentBind->value);
             currentBind = currentBind->pNextBinding;
