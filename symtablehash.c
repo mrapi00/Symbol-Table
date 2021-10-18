@@ -84,7 +84,7 @@ static size_t growHelper(const size_t bucketCount){
 
 /* Helper function that allocates memory to an SymTable object by 
    taking in a bucket count as argument. Returns reference to the
-   SymTable object. */
+   SymTable object, and NULL if memory not sufficient. */
 
 static SymTable_T newHelper(size_t bucketC){
     SymTable_T oSymTable;
@@ -117,7 +117,7 @@ static int SymTable_grow(SymTable_T oSymTable)
     size_t uNewBucketCount;
     size_t oldBucketCount = oSymTable->bucketCount;
     SymTable_T newSymTable;
-    SymTable_T pOld;
+    SymTable_T pOldSymTable;
 
     assert(oSymTable != NULL);
     /* Creates empty newSymTable with larger bucket count */
@@ -138,9 +138,9 @@ static int SymTable_grow(SymTable_T oSymTable)
     }
 
     /* Make oSymTable reference newSymTable, and free oSymTable's memory */
-    pOld = oSymTable;
+    pOldSymTable = oSymTable;
     oSymTable = newSymTable;
-    SymTable_free(pOld);
+    SymTable_free(pOldSymTable);
     return 1;
 }
 
