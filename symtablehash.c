@@ -262,7 +262,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
     assert(oSymTable != NULL);
 
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
-    binding = (*(oSymTable->buckets) + index);
+    binding = (oSymTable->buckets[index]);
 
     while (binding != NULL){
         if (binding->key == NULL) return 0;
