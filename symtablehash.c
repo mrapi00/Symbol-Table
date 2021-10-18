@@ -211,19 +211,21 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     if (newBinding == NULL)
         return 0;
 
-    newBinding->key = (const char*)malloc(strlen(pcKey) + 1);
+    /* create defensive copy */
+    newBinding->key = (const char*)calloc(1, strlen(pcKey) + 1);
     strcpy((char*)newBinding->key, pcKey);
     newBinding->value = (void*) pvValue;
     
+
     if ((oSymTable->buckets)[index] == NULL){
-        (oSymTable->buckets)[index] = newBinding; /* not sure */
+        (oSymTable->buckets)[index] = newBinding; 
     }
     else {
         currBinding = oSymTable->buckets[index];
         while (currBinding->pNextBinding != NULL){
             currBinding = currBinding->pNextBinding;
         }
-        *(currBinding->pNextBinding) = *newBinding; /* not sure */
+        *(currBinding->pNextBinding) = *newBinding; 
     }
 
     (oSymTable->size)++;
