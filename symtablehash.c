@@ -323,6 +323,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     returnValue = currBinding->value;
     free((char*) currBinding->key);
     free(currBinding);
+    oSymTable->size--;
     return returnValue;
 }
 
