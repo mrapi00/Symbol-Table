@@ -262,7 +262,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
     assert(oSymTable != NULL);
 
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
-    binding = (oSymTable->buckets[index]);
+    binding = oSymTable->buckets[index];
 
     while (binding != NULL){
         if (strcmp(pcKey, binding->key) == 0)
@@ -314,10 +314,12 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
 
     if (!found)
         return NULL;
-    /* missing a case maybe? */
-    if (currBinding->pNextBinding != NULL && prevBinding != NULL){
-        prevBinding->pNextBinding = currBinding->pNextBinding;
-    }
+
+    /* case where first node is node with key */
+    if (prevBinding == NULL)
+      oSymTable->buckets[index] = currBinding->pNextBinding;
+    else prevBinding->pNextBinding = currBinding->pNextBinding;
+   
     returnValue = currBinding->value;
     free((char*) currBinding->key);
     free(currBinding);
