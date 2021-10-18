@@ -56,7 +56,8 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
 
 static size_t growHelper(const size_t bucketCount){
     const int POSS_BUCKETS = 8;
-    for (int i = 0; i < POSS_BUCKETS - 1; i++){
+    int i;
+    for (i = 0; i < POSS_BUCKETS - 1; i++){
         if (auBucketCounts[i] == bucketCount)
             return auBucketCounts[i + 1];
     }
