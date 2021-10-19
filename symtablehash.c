@@ -101,8 +101,8 @@ static SymTable_T SymTable_grow(SymTable_T oSymTable)
     size_t index;
     size_t uNewBucketCount;
     size_t oldBucketCount = oSymTable->bucketCount;
-    struct Binding* currentBind;
     SymTable_T newSymTable;
+    struct Binding* currentBind;
 
     assert(oSymTable != NULL);
     /* Creates empty newSymTable with larger bucket count */
@@ -121,7 +121,6 @@ static SymTable_T SymTable_grow(SymTable_T oSymTable)
             currentBind = currentBind->pNextBinding;
         }    
     }
-    
     SymTable_free(oSymTable);
     return newSymTable;
 }
