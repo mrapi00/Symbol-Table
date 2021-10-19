@@ -102,7 +102,6 @@ static int SymTable_grow(SymTable_T oSymTable)
     size_t uNewBucketCount;
     size_t oldBucketCount = oSymTable->bucketCount;
     SymTable_T newSymTable;
-    struct Binding* currentBind;
 
     assert(oSymTable != NULL);
     /* Creates empty newSymTable with larger bucket count */
@@ -116,25 +115,16 @@ static int SymTable_grow(SymTable_T oSymTable)
        into newSymTable (re-hashed) */
 
     for (index = 0; index < oldBucketCount; index++){
-        currentBind = oSymTable->buckets[index];
-        while (currentBind != NULL){
-            SymTable_put(newSymTable, currentBind->key, currentBind->value);
-            currentBind = currentBind->pNextBinding;
-        }    
-    }
-
-    
-    /* Traverses bindings of oSymTable and frees the memory occupied 
-       by every binding object */
-    for (index = 0; index < oldBucketCount; index++){
         struct Binding* currentBind = oSymTable->buckets[index];
         while (currentBind != NULL){
+            SymTable_put(newSymTable, currentBind->key, currentBind->value);
             struct Binding* pCurrent = currentBind;
             free((char*)pCurrent->key);
             currentBind = currentBind->pNextBinding;
             free(pCurrent);
         }    
     }
+
     oSymTable = newSymTable;
     return 1;
 }
