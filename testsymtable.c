@@ -384,7 +384,7 @@ static void testRemove(void)
 /*--------------------------------------------------------------------*/
 
 /* Test the SymTable_map() function. */
-/*
+
 static void testMap(void)
 {
    SymTable_T oSymTable;
@@ -398,7 +398,7 @@ static void testMap(void)
    char acRightField[] = "Right Field";
 
    int iSuccessful;
-   
+
    printf("------------------------------------------------------\n");
    printf("Testing the SymTable_map() function.\n");
    fflush(stdout);
@@ -425,10 +425,10 @@ static void testMap(void)
    printf("Four players and their positions should appear here:\n");
    fflush(stdout);
    SymTable_map(oSymTable, printBindingSimple, NULL);
-   
+
    SymTable_free(oSymTable);
 }
-*/
+
 /*--------------------------------------------------------------------*/
 
 /* Test a SymTable object that contains no bindings. */
@@ -460,7 +460,7 @@ static void testEmptyTable(void)
    pcValue = (char*)SymTable_remove(oSymTable, "Jeter");
    ASSURE(pcValue == NULL);
 
-   /* SymTable_map(oSymTable, printBinding, "%s\t%s\n"); */
+   SymTable_map(oSymTable, printBinding, "%s\t%s\n");
 
    SymTable_free(oSymTable);
 }
@@ -496,13 +496,13 @@ static void testEmptyKey(void)
 
    pcValue = (char*)SymTable_get(oSymTable, "");
    ASSURE(pcValue == acShortstop);
-/*
+
    printf("An empty name and a position should appear here:\n");
    fflush(stdout);
    SymTable_map(oSymTable, printBinding, "%s\t%s\n");
 
    pcValue = (char*)SymTable_remove(oSymTable, "");
-   ASSURE(pcValue == acShortstop); */
+   ASSURE(pcValue == acShortstop);
 
    SymTable_free(oSymTable);
 }
@@ -953,7 +953,7 @@ int main(int argc, char *argv[])
    testKeyComparison();
    testKeyOwnership();
    testRemove();
-   /* testMap(); */
+   testMap();
    testEmptyTable();
    testEmptyKey();
    testNullValue();
