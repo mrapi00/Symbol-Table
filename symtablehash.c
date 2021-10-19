@@ -10,7 +10,7 @@
 #include "symtable.h"
 
 /*--------------------------------------------------------------------*/
-static const size_t auBucketCounts[] = {8, 1021, 2039, 4093, 8191, 
+static const size_t auBucketCounts[] = {509, 1021, 2039, 4093, 8191, 
                                         16381, 32749, 65521};
 struct Binding {
     /* The key. */
