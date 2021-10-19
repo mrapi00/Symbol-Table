@@ -119,7 +119,7 @@ static int SymTable_grow(SymTable_T oSymTable)
         while (currentBind != NULL){
             struct Binding* pCurrent = currentBind;
             SymTable_put(newSymTable, currentBind->key, currentBind->value);
-            free((char*)currentBind->key);
+            free((char*)pCurrent->key);
             currentBind = currentBind->pNextBinding;
             free(pCurrent);
         }    
@@ -152,7 +152,7 @@ void SymTable_free(SymTable_T oSymTable){
         struct Binding* currentBind = oSymTable->buckets[index];
         while (currentBind != NULL){
             struct Binding* pCurrent = currentBind;
-            free((char*)currentBind->key);
+            free((char*)pCurrent->key);
             currentBind = currentBind->pNextBinding;
             free(pCurrent);
         }    
