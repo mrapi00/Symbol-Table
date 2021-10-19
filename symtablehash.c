@@ -122,8 +122,20 @@ static int SymTable_grow(SymTable_T oSymTable)
             currentBind = currentBind->pNextBinding;
         }    
     }
+
     
-    SymTable_free(oSymTable);
+    /* Traverses bindings of oSymTable and frees the memory occupied 
+       by every binding object */
+    for (index = 0; index < oldBucketCount; index++){
+        struct Binding* currentBind = oSymTable->buckets[index];
+        while (currentBind != NULL){
+            struct Binding* pCurrent = currentBind;
+            free((char*)pCurrent->key);
+            currentBind = currentBind->pNextBinding;
+            free(pCurrent);
+        }    
+    }
+    oSymTable = newSymTable;
     return 1;
 }
 
