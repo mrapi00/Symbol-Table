@@ -54,7 +54,7 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
 /* Helper function that finds the next bucket count in the sequence 
    of prime number bucket counts, and returns the value.  */
 
-static size_t growHelper(const size_t bucketCount){
+static size_t growHelper(size_t bucketCount){
     const int POSS_BUCKETS = 8;
     int i;
     for (i = 0; i < POSS_BUCKETS - 1; i++){
@@ -96,7 +96,7 @@ static SymTable_T newHelper(size_t bucketC){
 /* Increase the bucket count of oSymTable.  Return 1 (TRUE) if
    successful, or 0 (FALSE) if insufficient memory is available. */
 
-static SymTable_T SymTable_grow(SymTable_T oSymTable)
+static int SymTable_grow(SymTable_T oSymTable)
 {
     size_t index;
     size_t uNewBucketCount;
@@ -108,8 +108,9 @@ static SymTable_T SymTable_grow(SymTable_T oSymTable)
     /* Creates empty newSymTable with larger bucket count */
     uNewBucketCount = growHelper(oldBucketCount);
     newSymTable = newHelper(uNewBucketCount);
+
     if (newSymTable == NULL)
-        return NULL;
+        return 0;
     
     /* Traverses bindings of oSymTable and copies the key-value pairs
        into newSymTable (re-hashed) */
@@ -121,8 +122,9 @@ static SymTable_T SymTable_grow(SymTable_T oSymTable)
             currentBind = currentBind->pNextBinding;
         }    
     }
+    
     SymTable_free(oSymTable);
-    return newSymTable;
+    return 1;
 }
 
 /*--------------------------------------------------------------------*/
@@ -168,6 +170,7 @@ size_t SymTable_getLength(SymTable_T oSymTable){
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, 
                  const void *pvValue){
     const size_t MAX_BUCKET_COUNT = auBucketCounts[7];
+    int iSuccessful;
     struct Binding* newBinding;
     size_t index;
     assert(oSymTable != NULL);
@@ -178,11 +181,9 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     if (oSymTable->size == oSymTable->bucketCount && 
         oSymTable->bucketCount != MAX_BUCKET_COUNT)
     {
-        SymTable_T grownSym = SymTable_grow(oSymTable);
-        if (grownSym == NULL)
+       iSuccessful = SymTable_grow(oSymTable);
+       if (!iSuccessful)
           return 0;
-        else oSymTable = grownSym;
-    
     }
 
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
