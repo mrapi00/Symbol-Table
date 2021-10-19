@@ -117,8 +117,8 @@ static int SymTable_grow(SymTable_T oSymTable)
     for (index = 0; index < oldBucketCount; index++){
         struct Binding* currentBind = oSymTable->buckets[index];
         while (currentBind != NULL){
-            SymTable_put(newSymTable, currentBind->key, currentBind->value);
             struct Binding* pCurrent = currentBind;
+            SymTable_put(newSymTable, currentBind->key, currentBind->value);
             free((char*)pCurrent->key);
             currentBind = currentBind->pNextBinding;
             free(pCurrent);
