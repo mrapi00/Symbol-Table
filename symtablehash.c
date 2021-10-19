@@ -121,7 +121,7 @@ static SymTable_T SymTable_grow(SymTable_T oSymTable)
         }    
     }
     
-    SymTable_free(oSymTable->buckets);
+    SymTable_free(oSymTable);
     return newSymTable;
 }
 
