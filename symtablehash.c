@@ -112,7 +112,7 @@ static int SymTable_grow(SymTable_T oSymTable)
         return 0;
     
     /* Traverses bindings of oSymTable and copies the key-value pairs
-       into newSymTable (re-hashed) */
+       into newSymTable (re-hashed). Frees up bindings during traversal. */
 
     for (index = 0; index < oldBucketCount; index++){
         struct Binding* currentBind = oSymTable->buckets[index];
@@ -125,6 +125,7 @@ static int SymTable_grow(SymTable_T oSymTable)
         }    
     }
     *oSymTable = *newSymTable;
+    free(newSymTable);
     return 1;
 }
 
