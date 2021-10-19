@@ -124,8 +124,7 @@ static int SymTable_grow(SymTable_T oSymTable)
             free(pCurrent);
         }    
     }
-    oSymTable->bucketCount = uNewBucketCount;
-    oSymTable = newSymTable;
+    *oSymTable = *newSymTable;
     return 1;
 }
 
