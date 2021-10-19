@@ -22,12 +22,12 @@ struct Binding {
 };
 
 struct SymTable {
+    /* Array of bindings */
+    struct Binding **buckets;
     /* Number of bindings */
     size_t size;
     /* Number of buckets*/
     size_t bucketCount;
-    /* Array of bindings */
-    struct Binding **buckets;
 };
 
 /*--------------------------------------------------------------------*/
