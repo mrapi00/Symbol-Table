@@ -24,6 +24,7 @@ struct Binding {
     struct Binding *pNextBinding;
 };
 
+/* A SymTable structure symbol table that points to the first Node. */
 struct SymTable {
     /* Array of bindings */
     struct Binding **buckets;
@@ -64,15 +65,15 @@ static size_t growHelper(size_t bucketCount){
         if (auBucketCounts[i] == bucketCount)
             return auBucketCounts[i + 1];
     }
-    /* should never reach this case */
+    /* will never reach this case */
     return 0;
 }
 
 /*--------------------------------------------------------------------*/
 
-/* Helper function that allocates memory to an SymTable object by 
-   taking in a bucket count as argument. Returns reference to the
-   SymTable object, and NULL if memory not sufficient. */
+/* Helper function that allocates memory to an SymTable object with 
+   bucket count as argument to specify number of buckets. Returns 
+   reference to the SymTable object, and NULL if memory not sufficient. */
 
 static SymTable_T newHelper(size_t bucketC){
     SymTable_T oSymTable;
@@ -116,7 +117,6 @@ static int SymTable_grow(SymTable_T oSymTable)
     
     /* Traverses bindings of oSymTable and copies the key-value pairs
        into newSymTable (re-hashed). Frees up bindings during traversal. */
-
     for (index = 0; index < oldBucketCount; index++){
         struct Binding* currentBind = oSymTable->buckets[index];
         while (currentBind != NULL){
@@ -184,7 +184,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
 
     if (SymTable_contains(oSymTable, pcKey)) 
         return 0;
-
+    
+    /* increase oSymTable bucket count once size reaches current count */
     if (oSymTable->size == oSymTable->bucketCount && 
         oSymTable->bucketCount != MAX_BUCKET_COUNT)
     {
@@ -283,6 +284,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
     currBinding = oSymTable->buckets[index];
 
+    /* traverse through bindings and locate it if exists */
     while (currBinding != NULL){
         if (strcmp(pcKey, currBinding->key) == 0){
             found = true;
