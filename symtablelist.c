@@ -12,7 +12,6 @@
 /*--------------------------------------------------------------------*/
 
 /* Each key-value pair is stored in a node, and points to next Node */
-
 struct Node
 {
    /* The key. */
@@ -25,7 +24,8 @@ struct Node
 
 /*--------------------------------------------------------------------*/
 
-/* A SymTable structure symbol table that points to the first Node. */
+/* A SymTable structure symbol table implemented as a linked list and  
+ maintains its size (number of Nodes) */
 
 struct SymTable
 {

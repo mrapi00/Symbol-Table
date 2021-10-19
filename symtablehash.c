@@ -10,8 +10,11 @@
 #include "symtable.h"
 
 /*--------------------------------------------------------------------*/
+/* Array containing bucket counts for the hash table as it grow */
 static const size_t auBucketCounts[] = {509, 1021, 2039, 4093, 8191, 
                                         16381, 32749, 65521};
+
+/* Each key-value pair is stored in a Binding, and points to next Binding */
 struct Binding {
     /* The key. */
     const char *key;

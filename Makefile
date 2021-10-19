@@ -1,3 +1,10 @@
+#Macros
+CC = gcc217
+# CC = gcc217m
+CFLAGS =
+#CFLAGS = -g
+
+# Dependency rules for non-file targets
 all: testsymtablelist testsymtablehash
 
 clobber: clean
@@ -6,17 +13,18 @@ clobber: clean
 clean:
 	rm -f testsymtablelist testsymtablehash *.o
 
+# Dependency rules for file targets
 testsymtablelist: testsymtable.o symtablelist.o
-	gcc217 testsymtable.o symtablelist.o -o testsymtablelist
+	$(CC) $(CFLAGS) testsymtable.o symtablelist.o -o testsymtablelist
 
 testsymtablehash: testsymtable.o symtablehash.o
-	gcc217 testsymtable.o symtablehash.o -o testsymtablehash
+	$(CC) $(CFLAGS) testsymtable.o symtablehash.o -o testsymtablehash
 
 testsymtable.o: testsymtable.c symtable.h
-	gcc217 -c testsymtable.c
+	$(CC) $(CFLAGS) -c testsymtable.c
 
 symtablelist.o: symtablelist.c symtable.h
-	gcc217 -c symtablelist.c
+	$(CC) $(CFLAGS) -c symtablelist.c
 
 symtablehash.o: symtablehash.c symtable.h
-	gcc217 -c symtablehash.c
+	$(CC) $(CFLAGS) -c symtablehash.c
