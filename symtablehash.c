@@ -157,6 +157,7 @@ void SymTable_free(SymTable_T oSymTable){
             free(pCurrent);
         }    
     }
+    free(oSymTable->buckets);
     free(oSymTable);
 }
 
