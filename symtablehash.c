@@ -107,7 +107,7 @@ static int SymTable_grow(SymTable_T oSymTable)
     /* Creates empty newSymTable with larger bucket count */
     uNewBucketCount = growHelper(oldBucketCount);
     newSymTable = newHelper(uNewBucketCount);
-
+    
     if (newSymTable == NULL)
         return 0;
     
@@ -124,7 +124,7 @@ static int SymTable_grow(SymTable_T oSymTable)
             free(pCurrent);
         }    
     }
-
+    oSymTable->bucketCount = uNewBucketCount;
     oSymTable = newSymTable;
     return 1;
 }
