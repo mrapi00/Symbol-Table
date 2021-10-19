@@ -125,6 +125,7 @@ static int SymTable_grow(SymTable_T oSymTable)
         }    
     }
     *oSymTable = *newSymTable;
+    free(newSymTable->buckets);
     free(newSymTable);
     return 1;
 }
