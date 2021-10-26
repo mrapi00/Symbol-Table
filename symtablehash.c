@@ -313,4 +313,19 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
 
 void SymTable_map(SymTable_T oSymTable,
     void (*pfApply)(const char *pcKey, void *pvValue, void *pvExtra),
-    const void *pvExtra);
+    const void *pvExtra){
+   size_t index;
+   size_t bucketC;
+   struct Binding *currBinding;
+   
+   assert(oSymTable != NULL);
+   assert(pfApply != NULL);
+   bucketC = oSymTable->bucketCount;
+
+   for (index = 0; index < bucketC; index++){
+        struct Binding* currentBind = oSymTable->buckets[index];
+        while (currentBind != NULL)
+            (*pfApply)((void*)currBinding->key,(void*)currentBind->value, (void*)pvExtra);
+            currBinding = currBinding->pNextBinding;
+    }
+}
