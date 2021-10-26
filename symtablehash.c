@@ -323,8 +323,9 @@ void SymTable_map(SymTable_T oSymTable,
 
    for (index = 0; index < bucketC; index++){
         struct Binding* currBinding = oSymTable->buckets[index];
-        while (currBinding != NULL)
+        while (currBinding != NULL){
             (*pfApply)((void*)currBinding->key,(void*)currBinding->value, (void*)pvExtra);
             currBinding = currBinding->pNextBinding;
+        }
     }
 }
