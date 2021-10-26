@@ -316,8 +316,7 @@ void SymTable_map(SymTable_T oSymTable,
     const void *pvExtra){
    size_t index;
    size_t bucketC;
-   struct Binding *currBinding;
-   
+
    assert(oSymTable != NULL);
    assert(pfApply != NULL);
    bucketC = oSymTable->bucketCount;
