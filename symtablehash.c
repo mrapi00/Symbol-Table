@@ -56,9 +56,9 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
 /*--------------------------------------------------------------------*/
 
 /* Helper function that finds the next bucket count in the sequence 
-   of prime number bucket counts, and returns the value.  */
+   based on current bucketCount, and returns the value.  */
 
-static size_t growHelper(size_t bucketCount){
+static size_t SymTable_SymTable_growHelper(size_t bucketCount){
     const int POSS_BUCKETS = 8;
     int i;
     for (i = 0; i < POSS_BUCKETS - 1; i++){
@@ -71,10 +71,10 @@ static size_t growHelper(size_t bucketCount){
 /*--------------------------------------------------------------------*/
 
 /* Helper function that allocates memory to an SymTable object with 
-   bucket count as argument to specify number of buckets. Returns 
-   reference to the SymTable object, and NULL if memory not sufficient. */
+   bucketC number of buckets. Returns reference to the SymTable object, 
+   and NULL if memory not sufficient. */
 
-static SymTable_T newHelper(size_t bucketC){
+static SymTable_T SymTable_newHelper(size_t bucketC){
     SymTable_T oSymTable;
 
     oSymTable = (SymTable_T) malloc(sizeof(struct SymTable));
@@ -108,8 +108,8 @@ static int SymTable_grow(SymTable_T oSymTable)
 
     assert(oSymTable != NULL);
     /* Creates empty newSymTable with larger bucket count */
-    uNewBucketCount = growHelper(oldBucketCount);
-    newSymTable = newHelper(uNewBucketCount);
+    uNewBucketCount = SymTable_growHelper(oldBucketCount);
+    newSymTable = SymTable_newHelper(uNewBucketCount);
     
     if (newSymTable == NULL)
         return 0;
@@ -136,7 +136,7 @@ static int SymTable_grow(SymTable_T oSymTable)
 
 SymTable_T SymTable_new(void) {
     const size_t INIT_BUCKET_COUNT = auBucketCounts[0];
-    SymTable_T oSymTable = newHelper(INIT_BUCKET_COUNT);
+    SymTable_T oSymTable = SymTable_newHelper(INIT_BUCKET_COUNT);
 
     if (oSymTable == NULL)
       return NULL;
