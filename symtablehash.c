@@ -149,7 +149,7 @@ void SymTable_free(SymTable_T oSymTable){
     size_t index;
     size_t bucketC = oSymTable->bucketCount;
     assert(oSymTable != NULL);
-    assert(pcKey != NULL);
+    
     /* Traverses bindings of oSymTable and frees the memory occupied 
        by every binding object */
     for (index = 0; index < bucketC; index++){
@@ -169,7 +169,7 @@ void SymTable_free(SymTable_T oSymTable){
 
 size_t SymTable_getLength(SymTable_T oSymTable){
     assert(oSymTable != NULL);
-    assert(pcKey != NULL);
+    
     return oSymTable->size;
 }
 
@@ -220,7 +220,9 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     const void *pvValue){
     size_t index;
     struct Binding* binding;
+
     assert(oSymTable != NULL);
+    assert(pcKey != NULL);
 
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
     binding = (oSymTable->buckets)[index];
@@ -243,6 +245,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
     size_t index;
     struct Binding* binding;
     assert(oSymTable != NULL);
+    assert(pcKey != NULL);
 
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
     binding = oSymTable->buckets[index];
@@ -261,6 +264,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
     size_t index;
     struct Binding* binding;
     assert(oSymTable != NULL);
+    assert(pcKey != NULL);
 
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
     binding = oSymTable->buckets[index];
@@ -282,6 +286,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     struct Binding* prevBinding = NULL;
     void *returnValue;
     assert(oSymTable != NULL);
+    assert(pcKey != NULL);
     
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
     currBinding = oSymTable->buckets[index];
