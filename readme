@@ -95,15 +95,15 @@ The linked list implementation with:
 -- 50 bindings consumed 0.000000 seconds.
 -- 500 bindings consumed 0.010000 seconds.
 -- 5000 bindings consumed 1.000000 seconds.
--- 50000 bindings consumed ________ seconds.
+-- 50000 bindings consumed 98.71000 seconds.
 -- 500000 bindings consumed ________ seconds.
 
 The non-expanding hash table implementation with:
--- 50 bindings consumed ________ seconds.
--- 500 bindings consumed ________ seconds.
--- 5000 bindings consumed ________ seconds.
--- 50000 bindings consumed ________ seconds.
--- 500000 bindings consumed ________ seconds.
+-- 50 bindings consumed 0.000000 seconds.
+-- 500 bindings consumed 0.000000 seconds.
+-- 5000 bindings consumed 0.010000 seconds.
+-- 50000 bindings consumed 0.380000 seconds.
+-- 500000 bindings consumed 67.900000 seconds.
 
 The expanding hash table implementation with:
 -- 50 bindings consumed 0.000000 seconds.

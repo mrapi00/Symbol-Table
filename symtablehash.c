@@ -297,8 +297,11 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
         return NULL;
 
     /* case where first node is node with key */
-    if (prevBinding == NULL)
-      oSymTable->buckets[index] = currBinding->pNextBinding;
+    if (prevBinding == NULL){
+        if (currBinding == NULL)
+            oSymTable->buckets[index] = NULL;
+        else oSymTable->buckets[index] = currBinding->pNextBinding;
+    }
     else prevBinding->pNextBinding = currBinding->pNextBinding;
    
     returnValue = currBinding->value;
