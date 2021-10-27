@@ -59,23 +59,8 @@ disagreements with them? Copy the splint warnings here, and express your
 disagreement after each warning. If there are no warnings, then write
 "None."
 
-I have 7 Buffer overflow warnings from the client:
-
-testsymtable.c:823:7: Buffer overflow possible with sprintf.  Recommend using
-                         snprintf instead: sprintf
-testsymtable.c:840:7: Buffer overflow possible with sprintf.  Recommend using
-                         snprintf instead: sprintf
-testsymtable.c:846:7: Buffer overflow possible with sprintf.  Recommend using
-                         snprintf instead: sprintf
-testsymtable.c:855:7: Buffer overflow possible with sprintf.  Recommend using
-                         snprintf instead: sprintf
-testsymtable.c:867:7: Buffer overflow possible with sprintf.  Recommend using
-                         snprintf instead: sprintf
-testsymtable.c:877:7: Buffer overflow possible with sprintf.  Recommend using
-                         snprintf instead: sprintf
-testsymtable.c:890:7: Buffer overflow possible with sprintf.  Recommend using
-                         snprintf instead: sprintf
-
+I have the 7 Buffer overflow warnings from the client (that the Assignment
+specs say to disregard).
 
 ------------------------------------------------------------------------
 What warnings does critTer generate on symtablelist.c, and what are your
@@ -106,22 +91,8 @@ disagreements with them? Copy the splint warnings here, and express your
 disagreement after each warning. If there are no warnings, then write
 "None."
 
-I have 7 Buffer overflow warnings from the client:
-
-testsymtable.c:823:7: Buffer overflow possible with sprintf.  Recommend using
-                         snprintf instead: sprintf
-testsymtable.c:840:7: Buffer overflow possible with sprintf.  Recommend using
-                         snprintf instead: sprintf
-testsymtable.c:846:7: Buffer overflow possible with sprintf.  Recommend using
-                         snprintf instead: sprintf
-testsymtable.c:855:7: Buffer overflow possible with sprintf.  Recommend using
-                         snprintf instead: sprintf
-testsymtable.c:867:7: Buffer overflow possible with sprintf.  Recommend using
-                         snprintf instead: sprintf
-testsymtable.c:877:7: Buffer overflow possible with sprintf.  Recommend using
-                         snprintf instead: sprintf
-testsymtable.c:890:7: Buffer overflow possible with sprintf.  Recommend using
-                         snprintf instead: sprintf
+I have the 7 Buffer overflow warnings from the client (that the Assignment
+specs say to disregard).
 
 
 ------------------------------------------------------------------------
