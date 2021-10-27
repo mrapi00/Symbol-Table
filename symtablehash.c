@@ -282,7 +282,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
 void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     size_t index;
     bool found = false;
-    struct Binding* currBinding;
+    struct Binding* currBinding = NULL;
     struct Binding* prevBinding = NULL;
     void *returnValue;
     assert(oSymTable != NULL);
@@ -303,7 +303,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
         currBinding = currBinding->pNextBinding;
     }
 
-    if (!found)
+    if (!found || currBinding == NULL)
         return NULL;
 
     /* case where first node is node with key */
