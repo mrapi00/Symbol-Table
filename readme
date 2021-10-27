@@ -130,7 +130,7 @@ The linked list implementation with:
 -- 500 bindings consumed 0.010000 seconds.
 -- 5000 bindings consumed 1.000000 seconds.
 -- 50000 bindings consumed 98.71000 seconds.
--- 500000 bindings consumed (KILLED PROCESS) seconds. (took too long)
+-- 500000 bindings consumed More than 5 minutes.
 
 The non-expanding hash table implementation with:
 -- 50 bindings consumed 0.000000 seconds.
