@@ -149,6 +149,7 @@ void SymTable_free(SymTable_T oSymTable){
     size_t index;
     size_t bucketC = oSymTable->bucketCount;
     assert(oSymTable != NULL);
+    assert(pcKey != NULL);
     /* Traverses bindings of oSymTable and frees the memory occupied 
        by every binding object */
     for (index = 0; index < bucketC; index++){
@@ -168,6 +169,7 @@ void SymTable_free(SymTable_T oSymTable){
 
 size_t SymTable_getLength(SymTable_T oSymTable){
     assert(oSymTable != NULL);
+    assert(pcKey != NULL);
     return oSymTable->size;
 }
 
@@ -180,7 +182,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     struct Binding* newBinding;
     size_t index;
     assert(oSymTable != NULL);
-
+    assert(pcKey != NULL);
+    
     if (SymTable_contains(oSymTable, pcKey)) 
         return 0;
     
