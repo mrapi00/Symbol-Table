@@ -6,7 +6,6 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
 #include "symtable.h"
 
 /*--------------------------------------------------------------------*/
@@ -293,7 +292,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
  
 void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     size_t index;
-    bool found = false;
+    int found = 0;
     struct Binding* currBinding = NULL;
     struct Binding* prevBinding = NULL;
     void *returnValue;
@@ -308,7 +307,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     /* traverse through bindings and locate it if exists */
     while (currBinding != NULL){
         if (strcmp(pcKey, currBinding->key) == 0){
-            found = true;
+            found = 1;
             break;
         }
         prevBinding = currBinding;

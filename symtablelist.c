@@ -6,7 +6,6 @@
 #include <assert.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include "symtable.h"
 
 /*--------------------------------------------------------------------*/
@@ -167,7 +166,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
    struct Node* current;
    struct Node* prevNode = NULL;
    void *returnValue;
-   bool found = false;
+   int found = 0;
 
    assert(oSymTable != NULL);
    assert(pcKey != NULL);
@@ -176,7 +175,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
    current = oSymTable->psFirstNode;
    while (current != NULL){
       if (strcmp(pcKey, current->key) == 0){
-         found = true;
+         found = 1;
          break;
       }
       prevNode = current;
