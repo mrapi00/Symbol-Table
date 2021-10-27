@@ -80,10 +80,11 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
    struct Node *psNewNode;
 
    assert(oSymTable != NULL);
+   assert(pcKey != NULL);
 
    if (SymTable_contains(oSymTable, pcKey)) 
         return 0;
-
+   
    psNewNode = (struct Node*)malloc(sizeof(struct Node));
    if (psNewNode == NULL)
       return 0;
@@ -104,7 +105,9 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
 void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     const void *pvValue){
       struct Node* current;
+
       assert(oSymTable != NULL);
+      assert(pcKey != NULL);
 
       current = oSymTable->psFirstNode;
       while (current != NULL){
@@ -122,7 +125,9 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
 
 int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
    struct Node* current;
+   
    assert(oSymTable != NULL);
+   assert(pcKey != NULL);
 
    current = oSymTable->psFirstNode;
    while (current != NULL){
@@ -137,7 +142,9 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
 
 void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
    struct Node* current;
+
    assert(oSymTable != NULL);
+   assert(pcKey != NULL);
 
    current = oSymTable->psFirstNode;
    while (current != NULL){
@@ -156,7 +163,9 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
    struct Node* prevNode = NULL;
    void *returnValue;
    bool found = false;
+
    assert(oSymTable != NULL);
+   assert(pcKey != NULL);
 
    /* traverse thru Nodes until found */
    current = oSymTable->psFirstNode;
@@ -168,7 +177,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
       prevNode = current;
       current = current->psNextNode;
    }
-   if (!found)
+   if (!found || current == NULL)
       return NULL;
    /* case where first node is node with key */
    if (prevNode == NULL)

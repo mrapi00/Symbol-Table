@@ -89,7 +89,23 @@ disagreements with them? Copy the splint warnings here, and express your
 disagreement after each warning. If there are no warnings, then write
 "None."
 
-None
+I have 7 Buffer overflow warnings in the client:
+
+testsymtable.c:823:7: Buffer overflow possible with sprintf.  Recommend using
+                         snprintf instead: sprintf
+testsymtable.c:840:7: Buffer overflow possible with sprintf.  Recommend using
+                         snprintf instead: sprintf
+testsymtable.c:846:7: Buffer overflow possible with sprintf.  Recommend using
+                         snprintf instead: sprintf
+testsymtable.c:855:7: Buffer overflow possible with sprintf.  Recommend using
+                         snprintf instead: sprintf
+testsymtable.c:867:7: Buffer overflow possible with sprintf.  Recommend using
+                         snprintf instead: sprintf
+testsymtable.c:877:7: Buffer overflow possible with sprintf.  Recommend using
+                         snprintf instead: sprintf
+testsymtable.c:890:7: Buffer overflow possible with sprintf.  Recommend using
+                         snprintf instead: sprintf
+
 
 ------------------------------------------------------------------------
 What warnings does critTer generate on symtablehash.c, and what are your
@@ -110,7 +126,7 @@ The linked list implementation with:
 -- 500 bindings consumed 0.010000 seconds.
 -- 5000 bindings consumed 1.000000 seconds.
 -- 50000 bindings consumed 98.71000 seconds.
--- 500000 bindings consumed ________ seconds.
+-- 500000 bindings consumed (KILLED PROCESS) seconds. (took too long)
 
 The non-expanding hash table implementation with:
 -- 50 bindings consumed 0.000000 seconds.
