@@ -24,7 +24,8 @@ struct Binding {
     struct Binding *pNextBinding;
 };
 
-/* A SymTable structure symbol table that points to the first Node. */
+/* A SymTable structure symbol table implemented with hash buckets that
+   contain bindings. */
 struct SymTable {
     /* Array of bindings */
     struct Binding **buckets;
@@ -211,7 +212,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     strcpy((char*)newBinding->key, pcKey);
     newBinding->value = (void*) pvValue;
     
-    /* append new Node to beginning of hash bucket (since we know pcKey 
+    /* append new binding to beginning of hash bucket (since we know pcKey 
        not already in SymTable so no additional traversal needed) */
     newBinding->pNextBinding = oSymTable->buckets[index];
     oSymTable->buckets[index] = newBinding;
@@ -317,7 +318,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     if (!found || currBinding == NULL)
         return NULL;
 
-    /* case where first node is node with key */
+    /* case where first binding is binding with key */
     if (prevBinding == NULL){
         if (currBinding == NULL)
             oSymTable->buckets[index] = NULL;
