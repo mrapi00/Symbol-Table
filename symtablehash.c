@@ -290,10 +290,9 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
     
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
     if (oSymTable->buckets[index] == NULL)
-        currBinding = NULL;
+        return NULL;
     else currBinding = oSymTable->buckets[index];
     
-
     /* traverse through bindings and locate it if exists */
     while (currBinding != NULL){
         if (strcmp(pcKey, currBinding->key) == 0){
@@ -313,8 +312,12 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey){
             oSymTable->buckets[index] = NULL;
         else oSymTable->buckets[index] = currBinding->pNextBinding;
     }
-    else prevBinding->pNextBinding = currBinding->pNextBinding;
-   
+    else {
+        if (currBinding == NULL)
+            prevBinding->pNextBinding  = NULL;
+        else prevBinding->pNextBinding = currBinding->pNextBinding;
+    }
+
     returnValue = currBinding->value;
     free((char*) currBinding->key);
     free(currBinding);
