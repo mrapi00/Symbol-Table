@@ -92,9 +92,9 @@ implementation, (2) your non-expanding hash table implementation, and
 (3) your expanding hash table implementation? Fill in the blanks.
 
 The linked list implementation with:
--- 50 bindings consumed ________ seconds.
--- 500 bindings consumed ________ seconds.
--- 5000 bindings consumed ________ seconds.
+-- 50 bindings consumed 0.000000 seconds.
+-- 500 bindings consumed 0.010000 seconds.
+-- 5000 bindings consumed 1.000000 seconds.
 -- 50000 bindings consumed ________ seconds.
 -- 500000 bindings consumed ________ seconds.
 
@@ -106,8 +106,8 @@ The non-expanding hash table implementation with:
 -- 500000 bindings consumed ________ seconds.
 
 The expanding hash table implementation with:
--- 50 bindings consumed ________ seconds.
--- 500 bindings consumed ________ seconds.
--- 5000 bindings consumed ________ seconds.
--- 50000 bindings consumed ________ seconds.
--- 500000 bindings consumed ________ seconds.
+-- 50 bindings consumed 0.000000 seconds.
+-- 500 bindings consumed 0.000000 seconds.
+-- 5000 bindings consumed 0.020000 seconds.
+-- 50000 bindings consumed 0.220000 seconds.
+-- 500000 bindings consumed 2.100000 seconds.
