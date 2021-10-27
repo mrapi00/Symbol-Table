@@ -192,7 +192,6 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     
     /* Increase oSymTable bucket count once its size reaches 
        current bucketCount */
-    /*
     if (oSymTable->size == oSymTable->bucketCount && 
         oSymTable->bucketCount != MAX_BUCKET_COUNT)
     {
@@ -200,7 +199,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
        if (!iSuccessful)
           return 0;
     }
-    */
+    
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
     
     newBinding = (struct Binding*)malloc(sizeof(struct Binding));
