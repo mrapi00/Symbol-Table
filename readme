@@ -59,7 +59,23 @@ disagreements with them? Copy the splint warnings here, and express your
 disagreement after each warning. If there are no warnings, then write
 "None."
 
-None
+I have 7 Buffer overflow warnings from the client:
+
+testsymtable.c:823:7: Buffer overflow possible with sprintf.  Recommend using
+                         snprintf instead: sprintf
+testsymtable.c:840:7: Buffer overflow possible with sprintf.  Recommend using
+                         snprintf instead: sprintf
+testsymtable.c:846:7: Buffer overflow possible with sprintf.  Recommend using
+                         snprintf instead: sprintf
+testsymtable.c:855:7: Buffer overflow possible with sprintf.  Recommend using
+                         snprintf instead: sprintf
+testsymtable.c:867:7: Buffer overflow possible with sprintf.  Recommend using
+                         snprintf instead: sprintf
+testsymtable.c:877:7: Buffer overflow possible with sprintf.  Recommend using
+                         snprintf instead: sprintf
+testsymtable.c:890:7: Buffer overflow possible with sprintf.  Recommend using
+                         snprintf instead: sprintf
+
 
 ------------------------------------------------------------------------
 What warnings does critTer generate on symtablelist.c, and what are your
@@ -67,29 +83,30 @@ disagreements with them? Copy the critTer warnings here, and express
 your disagreement after each warning. If there are no warnings, then
 write "None."
 
-   symtablehash.c: line 179: medium priority:
-   Do you want to validate 'pvValue' through an assert?
+    symtablelist.c: line 79: medium priority:
+    Do you want to validate 'pvValue' through an assert?
 
-Since pvValue is the value we are associated to each key, it is fine for 
-the client to pass it a null value (doesn't harm our implementation).
+Since pvValue is the value associated to each key, it is fine for 
+the client to pass it a null value (doesn't harm our implementation). We
+also never deference the pvValue pointer, so it's fine for it to be NULL.
 
-   symtablehash.c: line 220: medium priority:
-   Do you want to validate 'pvValue' through an assert?
+    symtablelist.c: line 106: medium priority:
+    Do you want to validate 'pvValue' through an assert?
 
-Same reason as above. 
+Same reason as above.
 
-   symtablehash.c: line 326: medium priority:
-   Do you want to validate 'pvExtra' through an assert?
+    symtablelist.c: line 198: medium priority:
+    Do you want to validate 'pvExtra' through an assert?
 
-pvExtra is a non-mandatory argument, so fine if NULL.
-
+pvExtra is a non-mandatory argument which is sometimes used based on 
+what the function that pfApply points to does, so fine if pvExtra is NULL.
 ------------------------------------------------------------------------
 What warnings does splint generate on symtablehash.c, and what are your
 disagreements with them? Copy the splint warnings here, and express your
 disagreement after each warning. If there are no warnings, then write
 "None."
 
-I have 7 Buffer overflow warnings in the client:
+I have 7 Buffer overflow warnings from the client:
 
 testsymtable.c:823:7: Buffer overflow possible with sprintf.  Recommend using
                          snprintf instead: sprintf
@@ -113,7 +130,23 @@ disagreements with them? Copy the critTer warnings here, and express
 your disagreement after each warning. If there are no warnings, then
 write "None."
 
-None
+    symtablehash.c: line 179: medium priority:
+    Do you want to validate 'pvValue' through an assert?
+
+Since pvValue is the value associated to each key, it is fine for 
+the client to pass it a null value (doesn't harm our implementation). We
+also never deference the pvValue pointer, so it's fine for it to be NULL.
+
+    symtablehash.c: line 220: medium priority:
+    Do you want to validate 'pvValue' through an assert?
+
+Same reason as above. 
+
+    symtablehash.c: line 326: medium priority:
+    Do you want to validate 'pvExtra' through an assert?
+
+pvExtra is a non-mandatory argument which is sometimes used based on 
+what the function that pfApply points to does, so fine if pvExtra is NULL.
 
 ------------------------------------------------------------------------
 What are the CPU times reported by testsymtable.c with binding counts
