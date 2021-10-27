@@ -29,7 +29,7 @@ struct Node
 
 struct SymTable
 {
-   /* size of symtable */
+   /* The size (node count) of SymTable */
    size_t size;
    /* The address of the first node. */
    struct Node *psFirstNode;
@@ -94,6 +94,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
    strcpy((char*)psNewNode->key, pcKey);
    psNewNode->value = (void*) pvValue;
 
+   /* append new Node to beginning of hash bucket */
    psNewNode->psNextNode = oSymTable->psFirstNode;
    oSymTable->psFirstNode = psNewNode;
    oSymTable->size++;

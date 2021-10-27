@@ -28,7 +28,7 @@ struct Binding {
 struct SymTable {
     /* Array of bindings */
     struct Binding **buckets;
-    /* Number of bindings */
+    /* The size (number of bindings) in SymTable */
     size_t size;
     /* Number of buckets*/
     size_t bucketCount;
@@ -207,6 +207,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     strcpy((char*)newBinding->key, pcKey);
     newBinding->value = (void*) pvValue;
     
+    /* append new Node to beginning of hash bucket */
     newBinding->pNextBinding = oSymTable->buckets[index];
     oSymTable->buckets[index] = newBinding;
     (oSymTable->size)++;
