@@ -67,7 +67,21 @@ disagreements with them? Copy the critTer warnings here, and express
 your disagreement after each warning. If there are no warnings, then
 write "None."
 
-None
+   symtablehash.c: line 179: medium priority:
+   Do you want to validate 'pvValue' through an assert?
+
+Since pvValue is the value we are associated to each key, it is fine for 
+the client to pass it a null value (doesn't harm our implementation).
+
+   symtablehash.c: line 220: medium priority:
+   Do you want to validate 'pvValue' through an assert?
+
+Same reason as above. 
+
+   symtablehash.c: line 326: medium priority:
+   Do you want to validate 'pvExtra' through an assert?
+
+pvExtra is a non-mandatory argument, so fine if NULL.
 
 ------------------------------------------------------------------------
 What warnings does splint generate on symtablehash.c, and what are your
