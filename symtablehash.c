@@ -58,7 +58,7 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
 /* Helper function that finds the next bucket count in the sequence 
    based on current bucketCount, and returns the value.  */
 
-static size_t SymTable_SymTable_growHelper(size_t bucketCount){
+static size_t SymTable_growHelper(size_t bucketCount){
     const int POSS_BUCKETS = 8;
     int i;
     for (i = 0; i < POSS_BUCKETS - 1; i++){
