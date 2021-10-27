@@ -23,7 +23,6 @@ Such documents include the course's lecture slides and precept handouts.
 
 The course's textbooks.
 
-
 The course's current staff members outside of class time through Ed.
 
 ------------------------------------------------------------------------
@@ -85,6 +84,7 @@ Same reason as above.
 
 pvExtra is a non-mandatory argument which is sometimes used based on 
 what the function that pfApply points to does, so fine if pvExtra is NULL.
+
 ------------------------------------------------------------------------
 What warnings does splint generate on symtablehash.c, and what are your
 disagreements with them? Copy the splint warnings here, and express your

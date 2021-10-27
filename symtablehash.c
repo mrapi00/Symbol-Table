@@ -56,13 +56,13 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
 /*--------------------------------------------------------------------*/
 
 /* Helper function that finds the next bucket count in the sequence 
-   based on current bucketCount, and returns the value.  */
+   based on current bucketC number of buckets, and returns the value. */
 
-static size_t SymTable_growHelper(size_t bucketCount){
+static size_t SymTable_growHelper(size_t bucketC){
     const int POSS_BUCKETS = 8;
     int i;
     for (i = 0; i < POSS_BUCKETS - 1; i++){
-        if (auBucketCounts[i] == bucketCount)
+        if (auBucketCounts[i] == bucketC)
             return auBucketCounts[i + 1];
     }
     return 0;
@@ -96,8 +96,10 @@ static SymTable_T SymTable_newHelper(size_t bucketC){
 
 /*--------------------------------------------------------------------*/
 
-/* Increase the bucket count of oSymTable.  Return 1 (TRUE) if
-   successful, or 0 (FALSE) if insufficient memory is available. */
+/* Increase the bucket count of oSymTable by allocated new larger memory
+   and transferring over key-value pairs. Frees up old memory (smaller
+   SymTable).  Return 1 (TRUE) ifsuccessful, or 0 (FALSE) if insufficient 
+   memory is available. */
 
 static int SymTable_grow(SymTable_T oSymTable)
 {
@@ -136,6 +138,7 @@ static int SymTable_grow(SymTable_T oSymTable)
 
 SymTable_T SymTable_new(void) {
     const size_t INIT_BUCKET_COUNT = auBucketCounts[0];
+    /* Create a SymTable of the default bucket size */
     SymTable_T oSymTable = SymTable_newHelper(INIT_BUCKET_COUNT);
 
     if (oSymTable == NULL)
@@ -187,7 +190,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     if (SymTable_contains(oSymTable, pcKey)) 
         return 0;
     
-    /* increase oSymTable bucket count once size reaches current count */
+    /* Increase oSymTable bucket count once its size reaches 
+       current bucketCount */
     if (oSymTable->size == oSymTable->bucketCount && 
         oSymTable->bucketCount != MAX_BUCKET_COUNT)
     {
@@ -207,7 +211,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
     strcpy((char*)newBinding->key, pcKey);
     newBinding->value = (void*) pvValue;
     
-    /* append new Node to beginning of hash bucket */
+    /* append new Node to beginning of hash bucket (since we know pcKey 
+       not already in SymTable so no additional traversal needed) */
     newBinding->pNextBinding = oSymTable->buckets[index];
     oSymTable->buckets[index] = newBinding;
     (oSymTable->size)++;
@@ -228,6 +233,7 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
     binding = (oSymTable->buckets)[index];
 
+    /* traverse corresponding bucket until finding pcKey and replace */
     while (binding != NULL){
         if (strcmp(pcKey, binding->key) == 0){
             void *oldValue = binding->value;
@@ -251,6 +257,8 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
     binding = oSymTable->buckets[index];
 
+    /* traverse corresponding bucket until finding pcKey and return 1
+       if found */
     while (binding != NULL){
         if (strcmp(pcKey, binding->key) == 0)
             return 1;
@@ -270,6 +278,8 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
     index = SymTable_hash(pcKey, oSymTable->bucketCount);
     binding = oSymTable->buckets[index];
 
+    /* traverse corresponding bucket until finding pcKey and return 1
+       if found */
     while (binding != NULL){
         if (strcmp(pcKey, binding->key) == 0)
             return binding->value;
@@ -337,7 +347,8 @@ void SymTable_map(SymTable_T oSymTable,
    assert(oSymTable != NULL);
    assert(pfApply != NULL);
    bucketC = oSymTable->bucketCount;
-
+   
+   /* traverse all bindings and apply pfApply to all key-value pairs */
    for (index = 0; index < bucketC; index++){
         struct Binding* currBinding = oSymTable->buckets[index];
         while (currBinding != NULL){

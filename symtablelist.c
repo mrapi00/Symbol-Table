@@ -82,8 +82,9 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
    assert(oSymTable != NULL);
    assert(pcKey != NULL);
 
+   /* traverse list just once to check if pcKey already in the SymTable */
    if (SymTable_contains(oSymTable, pcKey)) 
-        return 0;
+      return 0;
    
    psNewNode = (struct Node*)malloc(sizeof(struct Node));
    if (psNewNode == NULL)
@@ -94,7 +95,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue){
    strcpy((char*)psNewNode->key, pcKey);
    psNewNode->value = (void*) pvValue;
 
-   /* append new Node to beginning of hash bucket */
+   /* append new Node to beginning of the list (since we know pcKey 
+      not already in SymTable so no additional traversal needed) */
    psNewNode->psNextNode = oSymTable->psFirstNode;
    oSymTable->psFirstNode = psNewNode;
    oSymTable->size++;
@@ -110,6 +112,7 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
       assert(oSymTable != NULL);
       assert(pcKey != NULL);
 
+      /* traverse list until finding pcKey and replace */
       current = oSymTable->psFirstNode;
       while (current != NULL){
          if (strcmp(pcKey, current->key) == 0){
@@ -129,7 +132,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
    
    assert(oSymTable != NULL);
    assert(pcKey != NULL);
-
+   /* traverse list until finding pcKey and return 1 if found */
    current = oSymTable->psFirstNode;
    while (current != NULL){
       if (strcmp(pcKey, current->key) == 0)
@@ -147,6 +150,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey){
    assert(oSymTable != NULL);
    assert(pcKey != NULL);
 
+   /* traverse list until finding pcKey and return its value */
    current = oSymTable->psFirstNode;
    while (current != NULL){
       if (strcmp(pcKey, current->key) == 0){
@@ -202,6 +206,7 @@ void SymTable_map(SymTable_T oSymTable,
    assert(oSymTable != NULL);
    assert(pfApply != NULL);
 
+   /* traverse list and apply pfApply to all key-value pairs */
    for (psCurrentNode = oSymTable->psFirstNode;
         psCurrentNode != NULL;
         psCurrentNode = psCurrentNode->psNextNode)

@@ -76,10 +76,8 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey);
 void *SymTable_remove(SymTable_T oSymTable, const char *pcKey);
 
 /*--------------------------------------------------------------------*/
-/* Applies function *pfApply to each binding in oSymTable, passing 
-   pvExtra as an extra parameter. The function calls 
-   (*pfApply)(pcKey, pvValue, pvExtra) for each pcKey/pvValue binding 
-   in oSymTable. */
+/* Applies function *pfApply to each binding (key-value pair) in 
+   oSymTable, passing pvExtra as an extra parameter. */
 
 void SymTable_map(SymTable_T oSymTable,
     void (*pfApply)(const char *pcKey, void *pvValue, void *pvExtra),
