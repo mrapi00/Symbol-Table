@@ -67,19 +67,21 @@ disagreements with them? Copy the critTer warnings here, and express
 your disagreement after each warning. If there are no warnings, then
 write "None."
 
-    symtablelist.c: line 79: medium priority:
+    symtablelist.c: line 78: medium priority:
     Do you want to validate 'pvValue' through an assert?
 
 Since pvValue is the value associated to each key, it is fine for 
-the client to pass it a null value (doesn't harm our implementation). We
-also never deference the pvValue pointer, so it's fine for it to be NULL.
+the client to pass a null value for our put function (doesn't harm our 
+implementation). We also never deference the pvValue pointer (which 
+would be bad since we never want to deference a void pointer), so 
+it's fine for pvValue to be NULL.
 
-    symtablelist.c: line 106: medium priority:
+    symtablelist.c: line 108: medium priority:
     Do you want to validate 'pvValue' through an assert?
 
-Same reason as above.
+Same reason as above, the replace function will never dereference pvValue.
 
-    symtablelist.c: line 198: medium priority:
+    symtablelist.c: line 203: medium priority:
     Do you want to validate 'pvExtra' through an assert?
 
 pvExtra is a non-mandatory argument which is sometimes used based on 
@@ -101,19 +103,21 @@ disagreements with them? Copy the critTer warnings here, and express
 your disagreement after each warning. If there are no warnings, then
 write "None."
 
-    symtablehash.c: line 179: medium priority:
+    symtablehash.c: line 182: medium priority:
     Do you want to validate 'pvValue' through an assert?
 
 Since pvValue is the value associated to each key, it is fine for 
-the client to pass it a null value (doesn't harm our implementation). We
-also never deference the pvValue pointer, so it's fine for it to be NULL.
+the client to pass a null value for our put function (doesn't harm our 
+implementation). We also never deference the pvValue pointer (which 
+would be bad since we never want to deference a void pointer), so 
+it's fine for pvValue to be NULL.
 
-    symtablehash.c: line 220: medium priority:
+    symtablehash.c: line 238: medium priority:
     Do you want to validate 'pvValue' through an assert?
 
-Same reason as above. 
+Same reason as above, the replace function will never dereference pvValue. 
 
-    symtablehash.c: line 326: medium priority:
+    symtablehash.c: line 355: medium priority:
     Do you want to validate 'pvExtra' through an assert?
 
 pvExtra is a non-mandatory argument which is sometimes used based on 
