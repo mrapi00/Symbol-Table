@@ -131,6 +131,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey){
    
    assert(oSymTable != NULL);
    assert(pcKey != NULL);
+   
    /* traverse list until finding pcKey and return 1 if found */
    current = oSymTable->psFirstNode;
    while (current != NULL){
