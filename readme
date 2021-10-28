@@ -143,5 +143,5 @@ The expanding hash table implementation with:
 -- 50 bindings consumed 0.000000 seconds.
 -- 500 bindings consumed 0.000000 seconds.
 -- 5000 bindings consumed 0.020000 seconds.
--- 50000 bindings consumed 0.230000 seconds.
--- 500000 bindings consumed 2.130000 seconds.
+-- 50000 bindings consumed 0.210000 seconds.
+-- 500000 bindings consumed 2.100000 seconds.
