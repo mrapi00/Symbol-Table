@@ -182,13 +182,22 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
                  const void *pvValue){
     const size_t MAX_BUCKET_COUNT = auBucketCounts[7];
     int iSuccessful;
+    int resized = 0;
+    struct Binding* binding;
     struct Binding* newBinding;
     size_t index;
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
     
-    if (SymTable_contains(oSymTable, pcKey)) 
-        return 0;
+    index = SymTable_hash(pcKey, oSymTable->bucketCount);
+    binding = oSymTable->buckets[index];
+    /* traverse corresponding bucket until finding pcKey and return 0
+       if found */
+    while (binding != NULL){
+        if (strcmp(pcKey, binding->key) == 0)
+            return 0;
+        binding = binding->pNextBinding;
+    }
     
     /* Increase oSymTable bucket count once its size reaches 
        current bucketCount */
@@ -196,11 +205,13 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey,
         oSymTable->bucketCount != MAX_BUCKET_COUNT)
     {
        iSuccessful = SymTable_grow(oSymTable);
+       resized = 1;
        if (!iSuccessful)
           return 0;
     }
-    
-    index = SymTable_hash(pcKey, oSymTable->bucketCount);
+    /* only compute hash again if SymTable has changed */
+    if (resized)
+        index = SymTable_hash(pcKey, oSymTable->bucketCount);
     
     newBinding = (struct Binding*)malloc(sizeof(struct Binding));
     if (newBinding == NULL)
