@@ -1,3 +1,3 @@
 # Symbol Table Implementations
 
-I programming a Symbol Table (in C) with a linked list implementation and a hash table implementation.
+Two different implementations of Symbol Table (in C): a linked list implementation and a hash table implementation.
