@@ -1,3 +1,3 @@
-# Assignment 3 - SymTable
+# Symbol Table Implementations
 
-This repository contains the provided files for Assignment 3.
+I programming a Symbol Table (in C) with a linked list implementation and a hash table implementation.
